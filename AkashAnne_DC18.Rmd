@@ -17,3 +17,61 @@ Problem 18.1
 
 4. A fireplace also depends on the living_area variable, so a fireplace is only associated with a higher house price only if the living_area is greater than 2816.
 
+Problem 18.2
+
+    NCHS %>%
+      na.omit() %>%
+      nrow()
+
+    ## [1] 12013
+    
+    CompleteCases <- 
+      NCHS %>%
+      select(diabetic, weight, age, bmi, chol, smoker) %>%
+      na.omit() 
+    CompleteCases %>% nrow()
+
+    ## [1] 22797
+    
+18.2.1.
+    
+    mod1 <- party::ctree(
+      diabetic ~ weight + chol, data = CompleteCases)
+    plot(mod1,type="simple")
+
+    log_likelihood_mod1 <- CompleteCases %>%
+      mutate(probability = as.numeric(predict(mod1)),
+            likelihood =
+              ifelse(diabetic,
+                      probability,
+                      1-probability)) %>%
+      summarise(log_likelihood = sum(log(likelihood)))
+
+    log_likelihood_mod1
+    
+    ##   log_likelihood
+    ## 1      -4450.636
+    
+18.2.2. model 2 or mod2 means adding bmi and age as cases for diabetics and having a higher log-likelihood than -4450.6355123.
+
+    mod2 <- party::ctree(
+      diabetic ~ weight + chol + bmi + age, data = CompleteCases)
+    plot(mod2, type="simple")
+    
+    log_likelihood_mod2 <- CompleteCases %>%
+      mutate(probability = as.numeric(predict(mod2)),
+            likelihood =
+              ifelse(diabetic,
+                      probability,
+                      1-probability)) %>%
+      summarise(log_likelihood = sum(log(likelihood)))
+
+    log_likelihood_mod2
+    
+    ##   log_likelihood
+    ## 1      -3628.714
+    
+3. Node 29 has a group of people older than 49 years and have a BMI greater than 35.349 with a 31.9% diabetes risk.
+
+4. Node 5 has a group of people have a BMI less than 23.855 and are younger than 36 years and this group has a 0.2% diabetes risk.
+
