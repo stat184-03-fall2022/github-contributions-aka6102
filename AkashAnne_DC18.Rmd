@@ -1,0 +1,19 @@
+---
+title: "STAT 184 Homework Exercises" 
+subtitle: "DataComputing Chapter 18"
+author: "Akash Anne"
+output: html_notebook
+---
+
+# **DC Exercises Chapter 18**
+
+Problem 18.1
+
+1.  The variables in the model are living_area, bedrooms, bathrooms, and fireplaces.
+
+2. Due to the fact that there is no split in the tree for less than 1080 living space branch, the answer is no as the number of bathrooms does not make a difference in price.
+
+3. For the leaves 6 and 7 regarding a typical difference in price between houses with 1 1/2 bathrooms and 2 bathrooms is the difference between the values 179796.647 - 151424.497, which equals 28,372.15, which means the typical difference is around 28,000 dollars.
+
+4. A fireplace also depends on the living_area variable, so a fireplace is only associated with a higher house price only if the living_area is greater than 2816.
+
