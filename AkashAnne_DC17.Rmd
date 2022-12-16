@@ -12,3 +12,78 @@ editor_options:
     library(dcData)
     library(tidyverse)
 
+# DC Exercises Chapter 17
+
+Problem 17.1.1: 
+• Boys' names ending in a vowel
+
+<!-- -->
+
+    # load the data
+    data("BabyNames")
+
+    # top 10 boys' names ending in a vowel
+    BabyNames %>%
+      filter(sex == "M") %>%
+      group_by(name) %>%
+      summarise(total = sum(count)) %>%
+      filter(grepl("[aeiou]$", name)) %>%
+      arrange(desc(total)) %>%
+      head(10)
+
+    ## # A tibble: 10 x 2
+    ##    name       total
+    ##    <chr>      <int>
+    ##  1 George   1451408
+    ##  2 Joshua   1163815
+    ##  3 Jose      539924
+    ##  4 Kyle      469045
+    ##  5 Lawrence  454323
+    ##  6 Joe       448953
+    ##  7 Willie    447403
+    ##  8 Jesse     407183
+    ##  9 Bruce     379233
+    ## 10 Eugene    377338
+
+Problem 17.1.3: 
+• top 10 names ending with "joe" (like BettyJoe)
+
+    # top 10 names ending with "joe" 
+
+    # one interpretation: including the name "Joe" 
+    BabyNames %>%
+      filter(grepl("[Jj]oe$", name, ignore.case = TRUE)) %>%
+      group_by(name) %>%
+      summarise(total = sum(count)) %>%
+      arrange(desc(total)) %>%
+      head(10)
+
+    ## # A tibble: 7 x 2
+    ##   name       total
+    ##   <chr>      <int>
+    ## 1 Joe       460274
+    ## 2 Billyjoe     393
+    ## 3 Bobbyjoe      89
+    ## 4 Marjoe        12
+    ## 5 Billiejoe      6
+    ## 6 Maryjoe        6
+    ## 7 Johnnyjoe      5
+
+    # another interpretation: not including the name "Joe" 
+    BabyNames %>%
+      filter(grepl(".joe$", name, ignore.case = TRUE)) %>%
+      group_by(name) %>%
+      summarise(total = sum(count)) %>%
+      arrange(desc(total)) %>%
+      head(10)
+
+    ## # A tibble: 6 x 2
+    ##   name      total
+    ##   <chr>     <int>
+    ## 1 Billyjoe    393
+    ## 2 Bobbyjoe     89
+    ## 3 Marjoe       12
+    ## 4 Billiejoe     6
+    ## 5 Maryjoe       6
+    ## 6 Johnnyjoe     5
+
