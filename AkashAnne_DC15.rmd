@@ -1,0 +1,12 @@
+---
+title: "DC Exercises Chapter 15"
+output: html_notebook
+---
+
+# **DC Exercises Chapter 15**
+
+Problem 15.1
+
+    mosaicData::CPS85 %>%
+      ggplot(aes(x = sex, y = wage)) +
+      geom_boxplot(aes(fill = sex))
