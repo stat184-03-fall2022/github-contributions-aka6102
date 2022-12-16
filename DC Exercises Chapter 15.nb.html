@@ -9,9 +9,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Akash Anne" />
 
 
-<title>DC Exercises Chapter 17</title>
+<title>STAT 184 Homework Exercises</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -1746,148 +1747,62 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">DC Exercises Chapter 17</h1>
+<h1 class="title toc-ignore">STAT 184 Homework Exercises</h1>
+<h3 class="subtitle">DataComputing Chapter 15</h3>
+<h4 class="author">Akash Anne</h4>
 
 </div>
 
 
 <!-- rnb-text-begin -->
-<div id="load-required-packages" class="section level1">
-<h1><strong>Load Required Packages</strong></h1>
-<pre><code>library(dcData)
-library(tidyverse)</code></pre>
-</div>
-<div id="dc-exercises-chapter-17" class="section level1">
-<h1>DC Exercises Chapter 17</h1>
-<p>Problem 17.1.1: Boys’ names ending in a vowel</p>
-<!-- -->
-<pre><code># load the data
-data(&quot;BabyNames&quot;)
+<div id="dc-exercises-chapter-15" class="section level1">
+<h1><strong>DC Exercises Chapter 15</strong></h1>
+<p>Problem 15.1</p>
+<pre><code>mosaicData::CPS85 %&gt;%
+  ggplot(aes(x = sex, y = wage)) +
+  geom_boxplot(aes(fill = sex))</code></pre>
+<p>Problem 15.3</p>
+<pre><code>mosaicData::CPS85 %&gt;%
+  ggplot(aes(x = educ, y = wage, color = sex)) +
+  geom_point() +
+  stat_smooth(method = &quot;lm&quot;) + #or you can use geom_smooth
+  ylim(0, 15)
 
-# top 10 boys&#39; names ending in a vowel
-BabyNames %&gt;%
-  filter(sex == &quot;M&quot;) %&gt;%
-  group_by(name) %&gt;%
-  summarise(total = sum(count)) %&gt;%
-  filter(grepl(&quot;[aeiou]$&quot;, name)) %&gt;%
-  arrange(desc(total)) %&gt;%
-  head(10)
-
-## # A tibble: 10 x 2
-##    name       total
-##    &lt;chr&gt;      &lt;int&gt;
-##  1 George   1451408
-##  2 Joshua   1163815
-##  3 Jose      539924
-##  4 Kyle      469045
-##  5 Lawrence  454323
-##  6 Joe       448953
-##  7 Willie    447403
-##  8 Jesse     407183
-##  9 Bruce     379233
-## 10 Eugene    377338</code></pre>
-<p>Problem 17.1.3: top 10 names ending with “joe” (like BettyJoe)</p>
-<pre><code># top 10 names ending with &quot;joe&quot; 
-
-# one interpretation: including the name &quot;Joe&quot; 
-BabyNames %&gt;%
-  filter(grepl(&quot;[Jj]oe$&quot;, name, ignore.case = TRUE)) %&gt;%
-  group_by(name) %&gt;%
-  summarise(total = sum(count)) %&gt;%
-  arrange(desc(total)) %&gt;%
-  head(10)
-
-## # A tibble: 7 x 2
-##   name       total
-##   &lt;chr&gt;      &lt;int&gt;
-## 1 Joe       460274
-## 2 Billyjoe     393
-## 3 Bobbyjoe      89
-## 4 Marjoe        12
-## 5 Billiejoe      6
-## 6 Maryjoe        6
-## 7 Johnnyjoe      5
-
-# another interpretation: not including the name &quot;Joe&quot; 
-BabyNames %&gt;%
-  filter(grepl(&quot;.joe$&quot;, name, ignore.case = TRUE)) %&gt;%
-  group_by(name) %&gt;%
-  summarise(total = sum(count)) %&gt;%
-  arrange(desc(total)) %&gt;%
-  head(10)
-
-## # A tibble: 6 x 2
-##   name      total
-##   &lt;chr&gt;     &lt;int&gt;
-## 1 Billyjoe    393
-## 2 Bobbyjoe     89
-## 3 Marjoe       12
-## 4 Billiejoe     6
-## 5 Maryjoe       6
-## 6 Johnnyjoe     5</code></pre>
-<p>Problem 17.4.1 and 17.4.2</p>
-<p>• Strings matching the pattern will be 2 characters long</p>
-<p>• 61 different strings possible that can match like C[AOT] being
-3</p>
-<p>Problem 17.5.1: Names that have any of the words: “bar”, “dam”,
-“lory”</p>
-<pre><code># load the data
-BibleNames &lt;- 
-  readr::read_csv(&quot;https://mdbeckman.github.io/dcSupplement/data/BibleNames.csv&quot;)
-
-## Rows: 2625 Columns: 2
-
-## -- Column specification --------------------------------------------------------
-## Delimiter: &quot;,&quot;
-## chr (2): name, meaning
-
-## 
-## i Use `spec()` to retrieve the full column specification for this data.
-## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
-
-# names that have &quot;bar&quot;, &quot;dam&quot;, or &quot;lory&quot;
-BibleNames %&gt;%
-  filter(grepl(&quot;bar|dam|lory&quot;, name, ignore.case = TRUE)) %&gt;%
-  group_by(name) %&gt;%
-  head(10)
-
-## # A tibble: 10 x 2
-## # Groups:   name [10]
-##    name      meaning                   
-##    &lt;chr&gt;     &lt;chr&gt;                     
-##  1 Abarim    passages; passengers      
-##  2 Aceldama  field of blood            
-##  3 Adam      earthy; red               
-##  4 Adamah    red earth; of blood       
-##  5 Adami     my man; red; earthy; human
-##  6 Barabbas  son of shame              
-##  7 Barachel  that bows before God      
-##  8 Barachias same as Barachel          
-##  9 Barak     thunder                   
-## 10 Barjesus  son of Jesus or Joshua</code></pre>
-<p>Problem 17.5.2: Names that end with “bar”, “dam”, or “lory”</p>
-<pre><code># names that end with &quot;bar&quot;, &quot;dam&quot;, or &quot;lory&quot;
-BibleNames %&gt;%
-  filter(grepl(&quot;bar$|dam$|lory$&quot;, name, ignore.case = TRUE)) %&gt;%
-  group_by(name) %&gt;%
-  head(10)
-
-## # A tibble: 6 x 2
-## # Groups:   name [6]
-##   name    meaning           
-##   &lt;chr&gt;   &lt;chr&gt;             
-## 1 Adam    earthy; red       
-## 2 Chebar  force or strength 
-## 3 Elmodam the God of measure
-## 4 Gazabar a treasurer       
-## 5 Gibbar  strong            
-## 6 Parbar  a suburb</code></pre>
-<p><br />
-</p>
+## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p>Problem 15.5</p>
+<p>20 ZIP Codes</p>
+<ol style="list-style-type: decimal">
+<li><p>The relationship between the fraction of 65 and older people and
+the fraction in a ZIP code under 5 years old is a horizontal line. Thus,
+as the fraction in a ZIP code under 5 years old increases, the fraction
+of 65 and older people will stay relatively the same. Thus, the data
+does not indicate that ZIP codes with high elderly populations tend to
+have high child populations. In fact, the data leans toward the idea
+that ZIP codes with high elderly populations correlate with low child
+populations.</p></li>
+<li><p>The confidence bands in relation to the data points are wide in
+terms of relation, so there is a possibility for a relationship between
+the elderly and child population, but the only way to find out is if
+more data is gathered to see if there is a line that is non-level.</p>
+<p>80 ZIP Codes</p>
+<ol style="list-style-type: decimal">
+<li><p>The line has a downwards slope, so according to this scatterplot
+data, a flat line would not be consistent with the scatterplot
+data.</p></li>
+<li><p>With 4 times as much data in this larger sample of 80 ZIP Codes
+compared to the smaller sample of 20 ZIP Codes, the confidence band
+heights are around ½. Thus, the ratio of the confidence bands between 20
+ZIP codes and 80 ZIP codes is approximately 2.</p></li>
+<li><p>The ratio is 2, because (1/(√20))/(1/√(80))= √(80)/√(20)= 4/2= 2,
+which supports the answer to part 2 of the ratio of confidence band
+heights, and that statistical theory indicates that the width of a
+confidence band based on n points goes as 1/√(n).</p></li>
+</ol></li>
+</ol>
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiREMgRXhlcmNpc2VzIENoYXB0ZXIgMTciCm91dHB1dDogaHRtbF9ub3RlYm9vawplZGl0b3Jfb3B0aW9uczogCiAgbWFya2Rvd246IAogICAgd3JhcDogNzIKLS0tCgojICoqTG9hZCBSZXF1aXJlZCBQYWNrYWdlcyoqCgogICAgbGlicmFyeShkY0RhdGEpCiAgICBsaWJyYXJ5KHRpZHl2ZXJzZSkKCiMgREMgRXhlcmNpc2VzIENoYXB0ZXIgMTcKClByb2JsZW0gMTcuMS4xOiBCb3lzJyBuYW1lcyBlbmRpbmcgaW4gYSB2b3dlbAoKPCEtLSAtLT4KCiAgICAjIGxvYWQgdGhlIGRhdGEKICAgIGRhdGEoIkJhYnlOYW1lcyIpCgogICAgIyB0b3AgMTAgYm95cycgbmFtZXMgZW5kaW5nIGluIGEgdm93ZWwKICAgIEJhYnlOYW1lcyAlPiUKICAgICAgZmlsdGVyKHNleCA9PSAiTSIpICU+JQogICAgICBncm91cF9ieShuYW1lKSAlPiUKICAgICAgc3VtbWFyaXNlKHRvdGFsID0gc3VtKGNvdW50KSkgJT4lCiAgICAgIGZpbHRlcihncmVwbCgiW2FlaW91XSQiLCBuYW1lKSkgJT4lCiAgICAgIGFycmFuZ2UoZGVzYyh0b3RhbCkpICU+JQogICAgICBoZWFkKDEwKQoKICAgICMjICMgQSB0aWJibGU6IDEwIHggMgogICAgIyMgICAgbmFtZSAgICAgICB0b3RhbAogICAgIyMgICAgPGNocj4gICAgICA8aW50PgogICAgIyMgIDEgR2VvcmdlICAgMTQ1MTQwOAogICAgIyMgIDIgSm9zaHVhICAgMTE2MzgxNQogICAgIyMgIDMgSm9zZSAgICAgIDUzOTkyNAogICAgIyMgIDQgS3lsZSAgICAgIDQ2OTA0NQogICAgIyMgIDUgTGF3cmVuY2UgIDQ1NDMyMwogICAgIyMgIDYgSm9lICAgICAgIDQ0ODk1MwogICAgIyMgIDcgV2lsbGllICAgIDQ0NzQwMwogICAgIyMgIDggSmVzc2UgICAgIDQwNzE4MwogICAgIyMgIDkgQnJ1Y2UgICAgIDM3OTIzMwogICAgIyMgMTAgRXVnZW5lICAgIDM3NzMzOAoKUHJvYmxlbSAxNy4xLjM6IHRvcCAxMCBuYW1lcyBlbmRpbmcgd2l0aCAiam9lIiAobGlrZSBCZXR0eUpvZSkKCiAgICAjIHRvcCAxMCBuYW1lcyBlbmRpbmcgd2l0aCAiam9lIiAKCiAgICAjIG9uZSBpbnRlcnByZXRhdGlvbjogaW5jbHVkaW5nIHRoZSBuYW1lICJKb2UiIAogICAgQmFieU5hbWVzICU+JQogICAgICBmaWx0ZXIoZ3JlcGwoIltKal1vZSQiLCBuYW1lLCBpZ25vcmUuY2FzZSA9IFRSVUUpKSAlPiUKICAgICAgZ3JvdXBfYnkobmFtZSkgJT4lCiAgICAgIHN1bW1hcmlzZSh0b3RhbCA9IHN1bShjb3VudCkpICU+JQogICAgICBhcnJhbmdlKGRlc2ModG90YWwpKSAlPiUKICAgICAgaGVhZCgxMCkKCiAgICAjIyAjIEEgdGliYmxlOiA3IHggMgogICAgIyMgICBuYW1lICAgICAgIHRvdGFsCiAgICAjIyAgIDxjaHI+ICAgICAgPGludD4KICAgICMjIDEgSm9lICAgICAgIDQ2MDI3NAogICAgIyMgMiBCaWxseWpvZSAgICAgMzkzCiAgICAjIyAzIEJvYmJ5am9lICAgICAgODkKICAgICMjIDQgTWFyam9lICAgICAgICAxMgogICAgIyMgNSBCaWxsaWVqb2UgICAgICA2CiAgICAjIyA2IE1hcnlqb2UgICAgICAgIDYKICAgICMjIDcgSm9obm55am9lICAgICAgNQoKICAgICMgYW5vdGhlciBpbnRlcnByZXRhdGlvbjogbm90IGluY2x1ZGluZyB0aGUgbmFtZSAiSm9lIiAKICAgIEJhYnlOYW1lcyAlPiUKICAgICAgZmlsdGVyKGdyZXBsKCIuam9lJCIsIG5hbWUsIGlnbm9yZS5jYXNlID0gVFJVRSkpICU+JQogICAgICBncm91cF9ieShuYW1lKSAlPiUKICAgICAgc3VtbWFyaXNlKHRvdGFsID0gc3VtKGNvdW50KSkgJT4lCiAgICAgIGFycmFuZ2UoZGVzYyh0b3RhbCkpICU+JQogICAgICBoZWFkKDEwKQoKICAgICMjICMgQSB0aWJibGU6IDYgeCAyCiAgICAjIyAgIG5hbWUgICAgICB0b3RhbAogICAgIyMgICA8Y2hyPiAgICAgPGludD4KICAgICMjIDEgQmlsbHlqb2UgICAgMzkzCiAgICAjIyAyIEJvYmJ5am9lICAgICA4OQogICAgIyMgMyBNYXJqb2UgICAgICAgMTIKICAgICMjIDQgQmlsbGllam9lICAgICA2CiAgICAjIyA1IE1hcnlqb2UgICAgICAgNgogICAgIyMgNiBKb2hubnlqb2UgICAgIDUKClByb2JsZW0gMTcuNC4xIGFuZCAxNy40LjIKCuKAoiBTdHJpbmdzIG1hdGNoaW5nIHRoZSBwYXR0ZXJuIHdpbGwgYmUgMiBjaGFyYWN0ZXJzIGxvbmcKCuKAoiA2MSBkaWZmZXJlbnQgc3RyaW5ncyBwb3NzaWJsZSB0aGF0IGNhbiBtYXRjaCBsaWtlIENbQU9UXSBiZWluZyAzCgpQcm9ibGVtIDE3LjUuMTogTmFtZXMgdGhhdCBoYXZlIGFueSBvZiB0aGUgd29yZHM6ICJiYXIiLCAiZGFtIiwgImxvcnkiCgogICAgIyBsb2FkIHRoZSBkYXRhCiAgICBCaWJsZU5hbWVzIDwtIAogICAgICByZWFkcjo6cmVhZF9jc3YoImh0dHBzOi8vbWRiZWNrbWFuLmdpdGh1Yi5pby9kY1N1cHBsZW1lbnQvZGF0YS9CaWJsZU5hbWVzLmNzdiIpCgogICAgIyMgUm93czogMjYyNSBDb2x1bW5zOiAyCgogICAgIyMgLS0gQ29sdW1uIHNwZWNpZmljYXRpb24gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KICAgICMjIERlbGltaXRlcjogIiwiCiAgICAjIyBjaHIgKDIpOiBuYW1lLCBtZWFuaW5nCgogICAgIyMgCiAgICAjIyBpIFVzZSBgc3BlYygpYCB0byByZXRyaWV2ZSB0aGUgZnVsbCBjb2x1bW4gc3BlY2lmaWNhdGlvbiBmb3IgdGhpcyBkYXRhLgogICAgIyMgaSBTcGVjaWZ5IHRoZSBjb2x1bW4gdHlwZXMgb3Igc2V0IGBzaG93X2NvbF90eXBlcyA9IEZBTFNFYCB0byBxdWlldCB0aGlzIG1lc3NhZ2UuCgogICAgIyBuYW1lcyB0aGF0IGhhdmUgImJhciIsICJkYW0iLCBvciAibG9yeSIKICAgIEJpYmxlTmFtZXMgJT4lCiAgICAgIGZpbHRlcihncmVwbCgiYmFyfGRhbXxsb3J5IiwgbmFtZSwgaWdub3JlLmNhc2UgPSBUUlVFKSkgJT4lCiAgICAgIGdyb3VwX2J5KG5hbWUpICU+JQogICAgICBoZWFkKDEwKQoKICAgICMjICMgQSB0aWJibGU6IDEwIHggMgogICAgIyMgIyBHcm91cHM6ICAgbmFtZSBbMTBdCiAgICAjIyAgICBuYW1lICAgICAgbWVhbmluZyAgICAgICAgICAgICAgICAgICAKICAgICMjICAgIDxjaHI+ICAgICA8Y2hyPiAgICAgICAgICAgICAgICAgICAgIAogICAgIyMgIDEgQWJhcmltICAgIHBhc3NhZ2VzOyBwYXNzZW5nZXJzICAgICAgCiAgICAjIyAgMiBBY2VsZGFtYSAgZmllbGQgb2YgYmxvb2QgICAgICAgICAgICAKICAgICMjICAzIEFkYW0gICAgICBlYXJ0aHk7IHJlZCAgICAgICAgICAgICAgIAogICAgIyMgIDQgQWRhbWFoICAgIHJlZCBlYXJ0aDsgb2YgYmxvb2QgICAgICAgCiAgICAjIyAgNSBBZGFtaSAgICAgbXkgbWFuOyByZWQ7IGVhcnRoeTsgaHVtYW4KICAgICMjICA2IEJhcmFiYmFzICBzb24gb2Ygc2hhbWUgICAgICAgICAgICAgIAogICAgIyMgIDcgQmFyYWNoZWwgIHRoYXQgYm93cyBiZWZvcmUgR29kICAgICAgCiAgICAjIyAgOCBCYXJhY2hpYXMgc2FtZSBhcyBCYXJhY2hlbCAgICAgICAgICAKICAgICMjICA5IEJhcmFrICAgICB0aHVuZGVyICAgICAgICAgICAgICAgICAgIAogICAgIyMgMTAgQmFyamVzdXMgIHNvbiBvZiBKZXN1cyBvciBKb3NodWEKClByb2JsZW0gMTcuNS4yOiBOYW1lcyB0aGF0IGVuZCB3aXRoICJiYXIiLCAiZGFtIiwgb3IgImxvcnkiCgogICAgIyBuYW1lcyB0aGF0IGVuZCB3aXRoICJiYXIiLCAiZGFtIiwgb3IgImxvcnkiCiAgICBCaWJsZU5hbWVzICU+JQogICAgICBmaWx0ZXIoZ3JlcGwoImJhciR8ZGFtJHxsb3J5JCIsIG5hbWUsIGlnbm9yZS5jYXNlID0gVFJVRSkpICU+JQogICAgICBncm91cF9ieShuYW1lKSAlPiUKICAgICAgaGVhZCgxMCkKCiAgICAjIyAjIEEgdGliYmxlOiA2IHggMgogICAgIyMgIyBHcm91cHM6ICAgbmFtZSBbNl0KICAgICMjICAgbmFtZSAgICBtZWFuaW5nICAgICAgICAgICAKICAgICMjICAgPGNocj4gICA8Y2hyPiAgICAgICAgICAgICAKICAgICMjIDEgQWRhbSAgICBlYXJ0aHk7IHJlZCAgICAgICAKICAgICMjIDIgQ2hlYmFyICBmb3JjZSBvciBzdHJlbmd0aCAKICAgICMjIDMgRWxtb2RhbSB0aGUgR29kIG9mIG1lYXN1cmUKICAgICMjIDQgR2F6YWJhciBhIHRyZWFzdXJlciAgICAgICAKICAgICMjIDUgR2liYmFyICBzdHJvbmcgICAgICAgICAgICAKICAgICMjIDYgUGFyYmFyICBhIHN1YnVyYgoKXA==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiU1RBVCAxODQgSG9tZXdvcmsgRXhlcmNpc2VzIiAKc3VidGl0bGU6ICJEYXRhQ29tcHV0aW5nIENoYXB0ZXIgMTUiCmF1dGhvcjogIkFrYXNoIEFubmUiCm91dHB1dDogaHRtbF9ub3RlYm9vawotLS0KCiMgKipEQyBFeGVyY2lzZXMgQ2hhcHRlciAxNSoqCgpQcm9ibGVtIDE1LjEKCiAgICBtb3NhaWNEYXRhOjpDUFM4NSAlPiUKICAgICAgZ2dwbG90KGFlcyh4ID0gc2V4LCB5ID0gd2FnZSkpICsKICAgICAgZ2VvbV9ib3hwbG90KGFlcyhmaWxsID0gc2V4KSkKClByb2JsZW0gMTUuMwoKICAgIG1vc2FpY0RhdGE6OkNQUzg1ICU+JQogICAgICBnZ3Bsb3QoYWVzKHggPSBlZHVjLCB5ID0gd2FnZSwgY29sb3IgPSBzZXgpKSArCiAgICAgIGdlb21fcG9pbnQoKSArCiAgICAgIHN0YXRfc21vb3RoKG1ldGhvZCA9ICJsbSIpICsgI29yIHlvdSBjYW4gdXNlIGdlb21fc21vb3RoCiAgICAgIHlsaW0oMCwgMTUpCgogICAgIyMgYGdlb21fc21vb3RoKClgIHVzaW5nIGZvcm11bGEgJ3kgfiB4JwoKUHJvYmxlbSAxNS41CgoyMCBaSVAgQ29kZXMKCjEuICBUaGUgcmVsYXRpb25zaGlwIGJldHdlZW4gdGhlIGZyYWN0aW9uIG9mIDY1IGFuZCBvbGRlciBwZW9wbGUgYW5kIHRoZSBmcmFjdGlvbiBpbiBhIFpJUCBjb2RlIHVuZGVyIDUgeWVhcnMgb2xkIGlzIGEgaG9yaXpvbnRhbCBsaW5lLiBUaHVzLCBhcyB0aGUgZnJhY3Rpb24gaW4gYSBaSVAgY29kZSB1bmRlciA1IHllYXJzIG9sZCBpbmNyZWFzZXMsIHRoZSBmcmFjdGlvbiBvZiA2NSBhbmQgb2xkZXIgcGVvcGxlIHdpbGwgc3RheSByZWxhdGl2ZWx5IHRoZSBzYW1lLiBUaHVzLCB0aGUgZGF0YSBkb2VzIG5vdCBpbmRpY2F0ZSB0aGF0IFpJUCBjb2RlcyB3aXRoIGhpZ2ggZWxkZXJseSBwb3B1bGF0aW9ucyB0ZW5kIHRvIGhhdmUgaGlnaCBjaGlsZCBwb3B1bGF0aW9ucy4gSW4gZmFjdCwgdGhlIGRhdGEgbGVhbnMgdG93YXJkIHRoZSBpZGVhIHRoYXQgWklQIGNvZGVzIHdpdGggaGlnaCBlbGRlcmx5IHBvcHVsYXRpb25zIGNvcnJlbGF0ZSB3aXRoIGxvdyBjaGlsZCBwb3B1bGF0aW9ucy4KCjIuICBUaGUgY29uZmlkZW5jZSBiYW5kcyBpbiByZWxhdGlvbiB0byB0aGUgZGF0YSBwb2ludHMgYXJlIHdpZGUgaW4gdGVybXMgb2YgcmVsYXRpb24sIHNvIHRoZXJlIGlzIGEgcG9zc2liaWxpdHkgZm9yIGEgcmVsYXRpb25zaGlwIGJldHdlZW4gdGhlIGVsZGVybHkgYW5kIGNoaWxkIHBvcHVsYXRpb24sIGJ1dCB0aGUgb25seSB3YXkgdG8gZmluZCBvdXQgaXMgaWYgbW9yZSBkYXRhIGlzIGdhdGhlcmVkIHRvIHNlZSBpZiB0aGVyZSBpcyBhIGxpbmUgdGhhdCBpcyBub24tbGV2ZWwuCgogICAgODAgWklQIENvZGVzCgogICAgMS4gIFRoZSBsaW5lIGhhcyBhIGRvd253YXJkcyBzbG9wZSwgc28gYWNjb3JkaW5nIHRvIHRoaXMgc2NhdHRlcnBsb3QgZGF0YSwgYSBmbGF0IGxpbmUgd291bGQgbm90IGJlIGNvbnNpc3RlbnQgd2l0aCB0aGUgc2NhdHRlcnBsb3QgZGF0YS4KCiAgICAyLiAgV2l0aCA0IHRpbWVzIGFzIG11Y2ggZGF0YSBpbiB0aGlzIGxhcmdlciBzYW1wbGUgb2YgODAgWklQIENvZGVzIGNvbXBhcmVkIHRvIHRoZSBzbWFsbGVyIHNhbXBsZSBvZiAyMCBaSVAgQ29kZXMsIHRoZSBjb25maWRlbmNlIGJhbmQgaGVpZ2h0cyBhcmUgYXJvdW5kIMK9LiBUaHVzLCB0aGUgcmF0aW8gb2YgdGhlIGNvbmZpZGVuY2UgYmFuZHMgYmV0d2VlbiAyMCBaSVAgY29kZXMgYW5kIDgwIFpJUCBjb2RlcyBpcyBhcHByb3hpbWF0ZWx5IDIuCgogICAgMy4gIFRoZSByYXRpbyBpcyAyLCBiZWNhdXNlICgxLyjiiJoyMCkpLygxL+KImig4MCkpPSDiiJooODApL+KImigyMCk9IDQvMj0gMiwgd2hpY2ggc3VwcG9ydHMgdGhlIGFuc3dlciB0byBwYXJ0IDIgb2YgdGhlIHJhdGlvIG9mIGNvbmZpZGVuY2UgYmFuZCBoZWlnaHRzLCBhbmQgdGhhdCBzdGF0aXN0aWNhbCB0aGVvcnkgaW5kaWNhdGVzIHRoYXQgdGhlIHdpZHRoIG9mIGEgY29uZmlkZW5jZSBiYW5kIGJhc2VkIG9uwqBuIHBvaW50cyBnb2VzIGFzIDEv4oiaKG4pLg==</div>
 
 
 
@@ -1934,7 +1849,7 @@ $(document).ready(function () {
 <!-- code folding -->
 <script>
 $(document).ready(function () {
-  window.initializeSourceEmbed("DC Exercises Chapter 17.rmd");
+  window.initializeSourceEmbed("DC Exercises Chapter 15.Rmd");
   window.initializeCodeFolding("show" === "show");
 });
 </script>
