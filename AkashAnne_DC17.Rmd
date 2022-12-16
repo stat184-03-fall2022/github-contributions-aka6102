@@ -93,3 +93,60 @@ Problem 17.4.1 and 17.4.2
 
 2. 61 different strings possible that can match like C[AOT] being 3
 
+Problem 17.5.1: Names that have any of the words: "bar", "dam", "lory"
+
+    # load the data
+    BibleNames <- 
+      readr::read_csv("https://mdbeckman.github.io/dcSupplement/data/BibleNames.csv")
+
+    ## Rows: 2625 Columns: 2
+
+    ## -- Column specification --------------------------------------------------------
+    ## Delimiter: ","
+    ## chr (2): name, meaning
+
+    ## 
+    ## i Use `spec()` to retrieve the full column specification for this data.
+    ## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+    # names that have "bar", "dam", or "lory"
+    BibleNames %>%
+      filter(grepl("bar|dam|lory", name, ignore.case = TRUE)) %>%
+      group_by(name) %>%
+      head(10)
+
+    ## # A tibble: 10 x 2
+    ## # Groups:   name [10]
+    ##    name      meaning                   
+    ##    <chr>     <chr>                     
+    ##  1 Abarim    passages; passengers      
+    ##  2 Aceldama  field of blood            
+    ##  3 Adam      earthy; red               
+    ##  4 Adamah    red earth; of blood       
+    ##  5 Adami     my man; red; earthy; human
+    ##  6 Barabbas  son of shame              
+    ##  7 Barachel  that bows before God      
+    ##  8 Barachias same as Barachel          
+    ##  9 Barak     thunder                   
+    ## 10 Barjesus  son of Jesus or Joshua
+
+Problem 17.5.2: Names that end with "bar", "dam", or "lory"
+
+    # names that end with "bar", "dam", or "lory"
+    BibleNames %>%
+      filter(grepl("bar$|dam$|lory$", name, ignore.case = TRUE)) %>%
+      group_by(name) %>%
+      head(10)
+
+    ## # A tibble: 6 x 2
+    ## # Groups:   name [6]
+    ##   name    meaning           
+    ##   <chr>   <chr>             
+    ## 1 Adam    earthy; red       
+    ## 2 Chebar  force or strength 
+    ## 3 Elmodam the God of measure
+    ## 4 Gazabar a treasurer       
+    ## 5 Gibbar  strong            
+    ## 6 Parbar  a suburb
+
+\
