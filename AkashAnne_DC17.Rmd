@@ -1,0 +1,14 @@
+---
+title: "STAT 184 Homework Exercises" 
+subtitle: "DataComputing Chapter 17"
+author: "Akash Anne"
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+# **Load Required Packages**
+
+    library(dcData)
+    library(tidyverse)
+
